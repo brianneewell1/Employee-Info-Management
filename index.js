@@ -37,7 +37,7 @@ function runSelect() {
         .then(function (answer) {
             switch (answer.action) {
                 case "View all Employees":
-                    EmpAllSearch();
+                    empAllSearch();
                     break;
 
                 case "View Employees by Department":
@@ -69,4 +69,13 @@ function runSelect() {
                     break;
             }
         });
+}
+function empAllSearch() {
+
+    const query = "SELECT * FROM employee"
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+        console.table(res)
+        mainMenu()
+    })
 }

@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
 
 connection.connect(function (err) {
     if (err) throw err;
-    runSelect();
+    startMenu();
     console.log("You are connected");
 });
 
@@ -77,5 +77,39 @@ function empAllSearch() {
         if (err) throw err;
         console.table(res)
         startMenu()
+    })
+}
+
+function depSearch(){
+    const query = "SELECT * FROM department"
+    connection.query(query, function (err, res){
+        if (err) throw err;
+        console.table(res)
+        startMenu()
+    })
+}
+
+function roleSearch(){
+    const query = "SELECT * FROM empRole"
+    connection.query(query, function (err, res){
+        if (err) throw err;
+        console.table(res)
+        startMenu()
+    })
+}
+
+function depAdd(){
+    inquirer.prompt({
+        type: "input",
+        name: "department",
+        message: "Please enter the name of the department you would like to add",
+    })
+    .then(function(answer){
+        var query = "INSERT INTO department SET ?";
+        connection.query(query, {name:answer["department"]}, function (err,res){
+            if (err) throw err;
+            console.log("The department has been added");
+            startMenu();
+        })
     })
 }

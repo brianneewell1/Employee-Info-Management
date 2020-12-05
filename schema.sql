@@ -9,7 +9,7 @@ CREATE TABLE employee (
     last_name VARCHAR (30),
     role_id INT NOT NULL,
     manager_id INT NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
     FOREIGN KEY (role_id) REFERENCES empRole(id),
     FOREIGN KEY (manager_id) REFERENCES empRole(id)
 );
@@ -19,7 +19,7 @@ CREATE TABLE empRole(
     employee_role VARCHAR (30),
     salary DECIMAL (12,4),
     department_id INT NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
     FOREIGN KEY (department_id) REFERENCES department(id)
 );
 

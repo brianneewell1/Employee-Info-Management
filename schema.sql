@@ -3,7 +3,7 @@ CREATE database employee_infoDB;
 
 USE employee_infoDB;
 
-CREATE TABLE employee(
+CREATE TABLE employee (
     id INTEGER (10) AUTO_INCREMENT NOT NULL,
     first_name VARCHAR (30),
     last_name VARCHAR (30),

@@ -17,7 +17,7 @@ connection.connect(function (err) {
     console.log("You are connected");
 });
 
-function runSelect() {
+function startMenu() {
     inquirer
         .prompt({
             name: "action",
@@ -76,5 +76,6 @@ function empAllSearch() {
     connection.query(query, function (err, res) {
         if (err) throw err;
         console.table(res)
+        startMenu()
     })
 }

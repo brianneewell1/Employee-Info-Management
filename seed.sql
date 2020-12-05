@@ -1,11 +1,11 @@
 USE employee_infoDB;
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ('Leslie', 'Knope', 3,1),
-('Ron', 'Swanson', 2, 2),
-('Ben', 'Wyatt', 4,1),
+VALUES ('Leslie', 'Knope', 2,1),
+('Ron', 'Swanson', 1, 1),
+('Ben', 'Wyatt', 3,2),
 ('Andy', 'Dwyer', 4, 4),
-('Ann', 'Perkins', 1, 1);
+('Ann', 'Perkins', 3, 3);
 
 INSERT INTO department (name)
 VALUES ('Parks and Rec'), ('City Planning'), ('Health'), ('Shoe Shine');

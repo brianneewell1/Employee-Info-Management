@@ -113,3 +113,30 @@ function depAdd(){
         })
     })
 }
+
+//employee (first_name, last_name, role_id, manager_id)
+function empAdd(){
+    inquirer.prompt([
+        {
+        type: "input",
+        name: "first name",
+        message: "Please enter the employee's first name"
+        },
+        {
+        type: "input",
+        name: "last name",
+        message: "Please enter the employee's last name"
+        },
+        {
+        type: "input",
+        name: "role",
+        message: "Please select the employee's role"
+        },
+        {
+        type: "input",
+        name: "department",
+        message: "Please select the employee's department"
+        }
+
+    ])
+}

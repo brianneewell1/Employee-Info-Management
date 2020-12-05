@@ -116,6 +116,21 @@ function depAdd(){
 
 //employee (first_name, last_name, role_id, manager_id)
 function empAdd(){
+    var query = "SELECT * FROM employee";
+    var query = "SELECT * FROM department";
+   var department = [];
+   connection.query(query, function (err, res){
+       if (err) throw err;
+       for(var i = 0; i < res.length; i++){
+           department.push({name:res[i].first_name, name:res[i].last_name, value: res[i].id, name:res[i].name});
+       }
+       var query = "SELECT * FROM empRole";
+       var employee_role = [];
+       connection.query(query, function (err,res) {
+           if (err) throw err;
+           for (var i = 0; i < res.length; i++) {
+               employee_role.push({name:res[i].employeerole, value:res[i].id})
+           }
     inquirer.prompt([
         {
         type: "input",
@@ -130,13 +145,24 @@ function empAdd(){
         {
         type: "input",
         name: "role",
-        message: "Please select the employee's role"
+        message: "Please select the employee's role",
+        choices: employee_role
         },
         {
         type: "input",
         name: "department",
-        message: "Please select the employee's department"
-        }
+        message: "Please select the employee's department",
+    choices: department    
+    }
 
-    ])
+    ]).then(function(one){
+        var query = "INSERT INTO employee SET ?";
+        connection.query(query, {first_name: one["first name"], last_name: one["last name"], role_id: one["role"], manager_id: one["department"]}, function(err, res) {
+            if (err) throw err;
+            console.log("employee added");
+            startMenu();
+})
+    })
+})
+   });
 }

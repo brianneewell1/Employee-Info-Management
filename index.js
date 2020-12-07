@@ -116,7 +116,15 @@ function depAdd(){
 
 //employee (first_name, last_name, role_id, manager_id)
 function empAdd(){
-        inquirer.prompt([
+    var query = "SELECT * FROM department";
+    var department = [];
+    connection.query(query, function (err, res){
+        if (err) throw err;
+        for (var i = 0; i < res.length; i++){
+            department.push({name:res[i].first_name, value:res[i].last_name, value:res[i].role_id, value:res[i].manager_id});
+        }
+    })
+    inquirer.prompt([
         {
         type: "input",
         name: "first name",
@@ -130,12 +138,13 @@ function empAdd(){
         {
         type: "input",
         name: "role",
-        message: "Please type the number of the employee's role: 1-Director, 2- Deputy Director, 3- City Manager, 4, Public Relations Director, 5- Shoe Shiner, 6- Administrator, 7- Assistant, 8- Intern, 9- Public Health Director, 10- Other"
+        message: "Please type the number of the employee's role"
                 },
         {
         type: "input",
         name: "department",
         message: "Please select the employee's department", 
+        choices: department
     }
 
     ]).then(function(one){

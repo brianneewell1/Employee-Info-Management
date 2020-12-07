@@ -116,22 +116,7 @@ function depAdd(){
 
 //employee (first_name, last_name, role_id, manager_id)
 function empAdd(){
-    var query = "SELECT * FROM employee";
-    var query = "SELECT * FROM department";
-   var department = [];
-   connection.query(query, function (err, res){
-       if (err) throw err;
-       for(var i = 0; i < res.length; i++){
-           department.push({name:res[i].first_name, name:res[i].last_name, value: res[i].id, name:res[i].name});
-       }
-       var query = "SELECT * FROM empRole";
-       var employee_role = [];
-       connection.query(query, function (err,res) {
-           if (err) throw err;
-           for (var i = 0; i < res.length; i++) {
-               employee_role.push({name:res[i].employeerole, value:res[i].id})
-           }
-    inquirer.prompt([
+        inquirer.prompt([
         {
         type: "input",
         name: "first name",
@@ -145,14 +130,12 @@ function empAdd(){
         {
         type: "input",
         name: "role",
-        message: "Please select the employee's role",
-        choices: employee_role
-        },
+        message: "Please type the number of the employee's role: 1-Director, 2- Deputy Director, 3- City Manager, 4, Public Relations Director, 5- Shoe Shiner, 6- Administrator, 7- Assistant, 8- Intern, 9- Public Health Director, 10- Other"
+                },
         {
         type: "input",
         name: "department",
-        message: "Please select the employee's department",
-    choices: department    
+        message: "Please select the employee's department", 
     }
 
     ]).then(function(one){
@@ -162,7 +145,43 @@ function empAdd(){
             console.log("employee added");
             startMenu();
 })
-    })
-})
+
    });
+}
+
+function roleAdd () {
+    var query = "SELECT * FROM department";
+    var department = [];
+    connection.query(query, function (err, res){
+        if (err) throw err;
+        for (var i = 0; i < res.length; i++){
+            department.push({name:res[i].name, value:res[i].id})
+        }
+    })
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "employee_role",
+            message: "Please enter the role you would like to add",
+        },
+        {
+            type: "input",
+            name: "salary",
+            message: "Please input the salary of this role",
+        },
+        {
+            type: "list",
+            name: "department",
+            message: "Please select which department this belongs to",
+            choices: department
+        },
+    ]).then(function(answer){
+        var query = "INSERT INTO empRole SET?";
+        connection.query(query, {employee_role:answer["employee_role"], department_id:answer["department"], salary:answer["salary"]},
+        function(err, res){
+            if (err) throw err;
+            console.log("Role successfully added");
+            startMenu();
+        })
+    })
 }

@@ -25,8 +25,8 @@ function startMenu() {
             message: "What would you like to do?",
             choices: [
                 "View all Employees",
-                "View Employees by Department",
-                "View Employees by Role",
+                "View all Departments",
+                "View all Roles",
                 "Add Department",
                 "Add Employee",
                 "Add Role",
@@ -124,6 +124,14 @@ function empAdd(){
             department.push({name:res[i].first_name, value:res[i].last_name, value:res[i].role_id, value:res[i].manager_id});
         }
     })
+    var query = "SELECT * FROM empRole";
+    var roles = [];
+    connection.query(query, function(err, res){
+        if (err) throw err;
+        for (var i = 0; i < res.length; i++){
+            roles.push({name:res[i].empRole, value:res[i].role_id})
+        }
+    })
     inquirer.prompt([
         {
         type: "input",
@@ -136,12 +144,13 @@ function empAdd(){
         message: "Please enter the employee's last name"
         },
         {
-        type: "input",
+        type: "list",
         name: "role",
-        message: "Please type the number of the employee's role"
+        message: "Please type the number of the employee's role",
+        choices: roles
                 },
         {
-        type: "input",
+        type: "list",
         name: "department",
         message: "Please select the employee's department", 
         choices: department
@@ -191,6 +200,46 @@ function roleAdd () {
             if (err) throw err;
             console.log("Role successfully added");
             startMenu();
+        })
+    })
+}
+
+function roleUpdate(){
+    var query = "SELECT e.first_name, e.last_name, r.employee_role, e.manager_id, e.role_id FROM employee_infoDB.employee as e LEFT JOIN empRole as r on e.role_id = r.id";
+    var employees = [];
+    connection.query(query, function(err, res){
+        if (err) throw err;
+        for (var i = 0; i < res.length; i++){
+            employees.push({name:res[i].first_name + " " + res[i].last_name, value:res[i].role_id})
+        }
+        var query = "SELECT * FROM empRole";
+        var roles = [];
+        connection.query(query, function(err,res){
+            if (err) throw err;
+            for (var i = 0; i < res.length; i++){
+                roles.push({name:res[i].empRole, value:res[i].role_id})
+            }
+        });
+        inquirer.prompt([
+            {
+                type: "list",
+                name: "selection",
+                message: "Please select which employee you would like to update",
+                choices: employees
+            },
+            {
+                type: "list",
+                name: "update role",
+                message: "Please select which role you would like to update this employee to",
+                choices: roles
+            }
+        ]).then(function(res){
+            var query = "UPDATE employee SET role_id = ? where id = ?";
+            connection.query(query,[res["update role"], res["which employee"]], function(err, res){
+                if (err) throw err;
+                console.log("Updated successfully");
+                startMenu();
+            })
         })
     })
 }

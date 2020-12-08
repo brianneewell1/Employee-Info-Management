@@ -14,3 +14,12 @@ https://brianneewell1.github.io/Employee-Info-Management/
 
 # Video Demonstration
 https://drive.google.com/file/d/1_nZ7UJ4WiywUDkmnm6zs7qR0QCBMiS6I/view
+
+# Technologies Used
+Html
+Css
+JavaScript
+Node.js
+Inquirer.js
+console.table
+Sql
